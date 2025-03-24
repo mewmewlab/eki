@@ -8,10 +8,17 @@
 
     onMount(async () => {
         // await pb.collection("users").authWithPassword("test1@admin.com", "Notsafe@abc123")
-        fetch("http://localhost:8090/api/v1/docker/c9f3a113e3df/log")
-        pb.realtime.subscribe("docker.container.log.c9f3a113e3df", (e) => {
-            console.log(e.data)
-        })
+        const res = await fetch("http://localhost:8090/api/v1/docker/c9f3a113e3df/log")
+        const reader = res.body!.getReader()
+        const decoder = new TextDecoder()
+        while (true) {
+            const {done, value} = await reader.read()
+            if (done) {
+                break
+            }
+            const text = decoder.decode(value)
+            console.log(text)
+        }
     })
 
     onDestroy(() => {
