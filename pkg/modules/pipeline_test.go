@@ -1,18 +1,17 @@
-package pipeline_test
+package modules_test
 
 import (
 	"testing"
 
-	"github.com/mewmewlab/eki/pkg/modules/pipeline"
-	"github.com/mewmewlab/eki/pkg/modules/task"
+	"github.com/mewmewlab/eki/pkg/modules"
 )
 
 func TestPipeline(t *testing.T) {
-	p := pipeline.NewPipeline()
-	a := task.NewTask("A")
-	b := task.NewTask("B")
-	c := task.NewTask("C")
-	d := task.NewTask("D")
+	p := modules.NewPipeline()
+	a := modules.NewTask("A")
+	b := modules.NewTask("B")
+	c := modules.NewTask("C")
+	d := modules.NewTask("D")
 	p.AddTask(a)
 	p.AddTask(b)
 	p.AddTask(c)
@@ -31,6 +30,6 @@ func TestPipeline(t *testing.T) {
 			t.Error(err)
 			continue
 		}
-		t.Log(task.Image)
+		t.Log(task.Unit.Image)
 	}
 }

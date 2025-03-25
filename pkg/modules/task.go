@@ -1,7 +1,6 @@
-package task
+package modules
 
 import (
-	"github.com/docker/docker/api/types/container"
 	gonanoid "github.com/matoous/go-nanoid/v2"
 )
 
@@ -12,10 +11,7 @@ func TaskHash(task *Task) string {
 type Task struct {
 	Id string
 
-	Image           string
-	ContainerName   string
-	ContainerConfig *container.Config
-	HostConfig      *container.HostConfig
+	Unit *Unit
 
 	Retry       int
 	WaitTimeout int
@@ -24,8 +20,10 @@ type Task struct {
 func NewTask(image string) *Task {
 	id, _ := gonanoid.New()
 	return &Task{
-		Id:    id,
-		Image: image,
+		Id: id,
+		Unit: &Unit{
+			Image: image,
+		},
 	}
 }
 

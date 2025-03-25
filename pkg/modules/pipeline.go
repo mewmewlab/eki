@@ -1,23 +1,22 @@
-package pipeline
+package modules
 
 import (
 	"github.com/dominikbraun/graph"
-	"github.com/mewmewlab/eki/pkg/modules/task"
 )
 
 type Pipeline struct {
-	dag     graph.Graph[string, *task.Task]
+	dag     graph.Graph[string, *Task]
 	TaskIDs []string
 }
 
 func NewPipeline() *Pipeline {
 	return &Pipeline{
-		dag:     graph.New(task.TaskHash, graph.Directed(), graph.PreventCycles()),
+		dag:     graph.New(TaskHash, graph.Directed(), graph.PreventCycles()),
 		TaskIDs: nil,
 	}
 }
 
-func (p *Pipeline) AddTask(t *task.Task) error {
+func (p *Pipeline) AddTask(t *Task) error {
 	return p.dag.AddVertex(t)
 }
 
@@ -34,6 +33,6 @@ func (p *Pipeline) TopologicalSort() error {
 	return nil
 }
 
-func (p *Pipeline) GetTask(id string) (*task.Task, error) {
+func (p *Pipeline) GetTask(id string) (*Task, error) {
 	return p.dag.Vertex(id)
 }

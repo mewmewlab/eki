@@ -7,9 +7,9 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/mewmewlab/eki/pkg/api"
 	_ "github.com/mewmewlab/eki/pkg/migrations"
 	"github.com/mewmewlab/eki/pkg/router"
+	"github.com/mewmewlab/eki/pkg/utils"
 
 	"github.com/pocketbase/pocketbase"
 	"github.com/pocketbase/pocketbase/apis"
@@ -90,6 +90,9 @@ func main() {
 	// GitHub selfupdate
 	ghupdate.MustRegister(app, app.RootCmd, ghupdate.Config{})
 
+	// Init the eki
+	utils.InitUtils()
+
 	// Custom API routes
 	router.RegisterRouter(app)
 
@@ -110,7 +113,7 @@ func main() {
 	event := new(core.TerminateEvent)
 	event.App = app
 	app.OnTerminate().Trigger(event, func(te *core.TerminateEvent) error {
-		api.CloseAll()
+		utils.Close()
 		return nil
 	})
 
